@@ -1,0 +1,247 @@
+# ===================================
+# config/tasks.yaml
+# ===================================
+research_task:
+  description: >
+    You are REQUIRED to use your available tools to research {topic}. Do NOT provide any output without first using ALL required tools.
+    
+    TOOL USAGE REQUIREMENTS (ALL MANDATORY):
+    1. GOOGLE SEARCH TOOL: Use this to find web pages about {topic}. Call it with queries like:
+       - "{topic} learning roadmap" (finds structured learning paths)
+       - "{topic} tutorial beginner" (finds beginner resources)
+       - "{topic} advanced guide" (finds advanced content)
+       This tool returns URLs and snippets of relevant web pages.
+    
+    2. CRAWL_URL TOOL: Use this to extract full content from web pages. Pass it a URL from step 1.
+       Example: crawl_url("https://example.com/fastapi-tutorial")
+       This tool scrapes the entire page content including text, code examples, and structure.
+       You MUST crawl at least 3 different URLs to get detailed content.
+    
+    3. YOUTUBE TOOLS: Use get_video_info to analyze YouTube videos about {topic}.
+       Pass it a YouTube URL to get video details, duration, and description.
+       Use get_transcript to get the full text transcript of educational videos.
+    
+    FAILURE TO USE TOOLS = TASK FAILURE
+    
+    After using tools, analyze the gathered data to create a learning roadmap with:
+    - 3 phases (Foundation, Build, Ship)
+    - Resources categorized by difficulty
+    - Effort estimates for each resource
+    - Clear learning outcomes
+   
+  expected_output: >
+    A structured summary in YAML or JSON format containing:
+    
+    milestones:
+      - phase: "Foundation"
+        outcome: "..."
+        effort_hours: 6
+        recommended_resources:
+          - type: "article|video|course"
+            title: "..."
+            url: "..."
+            why_it_matters: "..."
+            effort_hours: 1.5
+            persona: "Beginner"
+            proof_of_progress: "Quiz, mini-project, etc."
+    
+    quick_wins:
+      - description: "..."
+        resource_url: "..."
+        expected_benefit: "..."
+
+  agent: research_agent  
+
+curation_task:
+  description: >
+    Review the research output for '{topic}' and convert it into a concise roadmap.
+    
+    Your tasks:
+    1. Identify 3-5 phases that describe the learner journey (Foundation → Build → Ship → Scale).
+    2. Map each researched resource to a phase with a clear objective, effort estimate, and success signal.
+    3. Recommend validation checkpoints (mini projects, quizzes, demos) per phase.
+    4. Define suggested pacing (weeks or hours) and a sample weekly schedule for the first two weeks.
+    5. Highlight 3 quick wins and 3 leverage moves (highest impact tasks) with rationale.
+    
+    Keep the output implementation-ready for the roadmap writer.
+   
+  expected_output: >
+    roadmap_blueprint:
+      overview:
+        target_audience: "..."
+        total_duration_weeks: 4
+        prerequisites: [...]
+        success_metrics: [...]
+      phases:
+        - name: "Phase 1 - Foundation"
+          duration: "Week 1"
+          objectives: [...]
+          key_concepts: [...]
+          primary_resources:
+            - title: "..."
+              url: "..."
+              effort_hours: 1.5
+          checkpoints:
+            - description: "..."
+              evidence: "..."
+          risks: [...]
+      weekly_starter_plan:
+        week_1:
+          focus: "..."
+          actions: [...]
+        week_2:
+          focus: "..."
+          actions: [...]
+      leverage_moves:
+        - description: "..."
+          why_now: "..."
+      accountability_prompts: [...]
+
+  agent: content_curator_agent  
+  context:  
+    - research_task
+
+writing_task:
+  description: >
+    Generate a concise, professional Markdown learning roadmap for '{topic}' using the curated blueprint.
+    
+    REQUIRED STRUCTURE:
+    
+    # {topic} Learning Roadmap
+    
+    ## 🚦 Snapshot
+    - Purpose & north star outcome
+    - Duration (weeks) & expected weekly hours
+    - Best suited for (persona level)
+    
+    ## ✅ Readiness Check
+    - Prerequisites list
+    - Environment/tools checklist
+    
+    ## 🗺️ Roadmap Pillars
+    - Table or list summarizing each phase (name, duration, focus, success metric)
+    
+    ## 📅 Phase Breakdowns
+    For each phase (Foundation, Build, Ship, Scale, etc.):
+    - Goal & why it matters
+    - 3-4 key actions or study items
+    - Linked resources with 1-line descriptions (use markdown links)
+    - Suggested deliverable / checkpoint
+    - Effort estimate
+    
+    ## 🎯 Quick Wins & Leverage Moves
+    - Highlight 3 quick wins and 3 leverage moves with short context
+    
+    ## 🧭 Sample Weekly Flow
+    - Bullet list for Week 1 and Week 2 with daily focus or pairings
+    
+    ## 📊 Progress Signals
+    - Checklist (markdown checkboxes) to track completion
+    - Metrics to monitor (e.g., demo built, PR merged, quiz score)
+    
+    ## 🤝 Accountability & Support
+    - Suggestions for sharing progress, community touchpoints, retro prompts
+    
+    FORMATTING REQUIREMENTS:
+    - Use emojis in section headers sparingly for scannability
+    - Favor bullet lists, short paragraphs, tables
+    - Keep total length 700-1200 words
+    - Tone: directive yet encouraging; second person ("you")
+    - Clearly label resources with effort and link inline
+    - Insert horizontal rules between major sections
+    - dont add ```markdown ``` at the beginning and end of the file
+    
+    End with a one-line CTA encouraging the reader to duplicate the page in Notion.
+   
+  expected_output: >
+    Complete Markdown content, formatted professionally and ready to
+    save as {topic}-Learning-Roadmap.md.
+    
+    The content must be:
+    - Concise (700-1200 words)
+    - Structured exactly as requested
+    - Easy to paste into Notion
+    - Includes inline links for every referenced resource
+    - Ends with a CTA such as "Duplicate this roadmap in Notion and tailor the milestones."
+ 
+  agent: tutorial_writer_agent  
+  context:  
+    - research_task
+    - curation_task
+
+  output_file: '{topic}-Learning-Roadmap.md'
+
+publishing_task:
+  description: |
+    Publish ONLY the referenced resources (articles, tutorials, videos, courses)
+    extracted from the curated/writing output — NOT the full Markdown roadmap.
+
+    The goal is to publish a short, compact “Resources Used” summary
+    under 2000 characters, making it Notion-safe.
+
+    The page must contain:
+    - Title: "{topic} – Resource References"
+    - One paragraph block containing:
+      * A bulleted list
+      * Each bullet includes: resource title + URL
+      * Total text length under 2000 characters
+        If over 2000 chars, truncate the list or condense items.
+
+    REQUIRED JSON STRUCTURE FOR API-post-page:
+    {
+      "parent": {
+        "page_id": "2af86761cd46800f9897c0e156efdcbf"
+      },
+      "properties": {
+        "title": [
+          {
+            "text": {
+              "content": "{topic} – Resource References"
+            }
+          }
+        ]
+      },
+      "children": [
+        {
+          "object": "block",
+          "type": "paragraph",
+          "paragraph": {
+            "rich_text": [
+              {
+                "type": "text",
+                "text": {
+                  "content": "FINAL_TEXT_HERE"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+
+    STEPS:
+    1. Extract all resources from writing_task (title + URL only).
+    2. Format as a bulleted list:
+         - Title: URL
+         - Title: URL
+         ...
+    3. Combine into one text block.
+    4. Trim or drop items to ensure total length < 2000 characters.
+    5. Call API-post-page using the JSON above.
+    6. Return the URL in the response.
+
+    RULES:
+    - Parent is a PAGE → use "page_id", not "database_id"
+    - Use "properties.title", not "Name"
+    - Do NOT send the entire Markdown
+    - Content must be text-only, inside a single rich_text text.content field
+    - If length > 2000 chars, reduce the list until safe
+  
+  expected_output: |
+    Either:
+    - "✅ Published references: https://www.notion.so/[page-id]"
+    - "❌ Failed: [error message]"
+
+  agent: notion_publisher_agent
+  context:
+    - writing_task
