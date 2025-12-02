@@ -5,7 +5,7 @@ from crewai.mcp import MCPServerStdio, MCPServerHTTP
 from crewai.mcp.filters import create_static_tool_filter
 from typing import List
 
-import agentops
+# import agentops
 import os
 from dotenv import load_dotenv
 load_dotenv()
@@ -15,9 +15,9 @@ google_search_key = os.getenv("GOOGLE_SEARCH_KEY")
 if not google_search_key:
     raise ValueError("Missing GOOGLE_SEARCH_KEY environment variable")
 
-# Initialize AgentOps if API key is available
-if os.getenv("AGENTOPS_API_KEY"):
-    agentops.init(os.getenv("AGENTOPS_API_KEY"))
+# # Initialize AgentOps if API key is available
+# if os.getenv("AGENTOPS_API_KEY"):
+#     agentops.init(os.getenv("AGENTOPS_API_KEY"))
 
 notion_api_key = os.getenv("NOTION_API_KEY")
 if not notion_api_key:
