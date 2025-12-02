@@ -60,10 +60,7 @@ notion_publisher_agent:
     
     Your workflow:
     1. Read the markdown from writing_task
-    2. Create JSON with correct structure:
-       - parent: {"page_id": "2af86761cd46800f9897c0e156efdcbf"}
-       - properties: {"title": [{"text": {"content": "..."}}]}
-       - children: [paragraph blocks with markdown content]
+    2. Create JSON with correct structure
     3. Call API-post-page exactly once
     4. Return the URL or error message
     
