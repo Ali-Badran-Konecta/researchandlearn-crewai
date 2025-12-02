@@ -20,15 +20,16 @@ def run():
     import os
     
     # Get topic from environment variable or command line
-    topic = os.getenv('TOPIC')
-    if not topic and len(sys.argv) > 1:
-        topic = " ".join(sys.argv[1:])
-    if not topic:
-        topic = input("Enter the topic to research: ").strip() or "claude opus 4.5"
+    # topic = os.getenv('TOPIC')
+    # if not topic and len(sys.argv) > 1:
+    #     topic = " ".join(sys.argv[1:])
+    # if not topic:
+    #     topic = input("Enter the topic to research: ").strip() or "claude opus 4.5"
     
-    print(f"\n🚀 Starting Roadmap Factory for topic: '{topic}'")
-    print(f"📝 This will generate: {topic.replace(' ', '-')}-Learning-Roadmap.md")
-    print(f"⏱️  Estimated time: 5-10 minutes\n")
+    # print(f"\n🚀 Starting Roadmap Factory for topic: '{topic}'")
+    # print(f"📝 This will generate: {topic.replace(' ', '-')}-Learning-Roadmap.md")
+    # print(f"⏱️  Estimated time: 5-10 minutes\n")
+    topic = "AI LLMs"
     
     inputs = {
         'topic': topic
