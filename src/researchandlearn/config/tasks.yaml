@@ -183,37 +183,6 @@ publishing_task:
       * Total text length under 2000 characters
         If over 2000 chars, truncate the list or condense items.
 
-    REQUIRED JSON STRUCTURE FOR API-post-page:
-    {
-      "parent": {
-        "page_id": "2af86761cd46800f9897c0e156efdcbf"
-      },
-      "properties": {
-        "title": [
-          {
-            "text": {
-              "content": "{topic} – Resource References"
-            }
-          }
-        ]
-      },
-      "children": [
-        {
-          "object": "block",
-          "type": "paragraph",
-          "paragraph": {
-            "rich_text": [
-              {
-                "type": "text",
-                "text": {
-                  "content": "FINAL_TEXT_HERE"
-                }
-              }
-            ]
-          }
-        }
-      ]
-    }
 
     STEPS:
     1. Extract all resources from writing_task (title + URL only).
