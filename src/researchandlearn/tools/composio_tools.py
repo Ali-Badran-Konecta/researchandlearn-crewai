@@ -5,9 +5,9 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Get values from environment variables
-firecrawl_auth_config_id = os.getenv("FIRECRAWL_AUTH_CONFIG_ID")
-user_id = os.getenv("FIRECRAWL_USER_ID")
-fire_crawl_api_key = os.getenv("FIRECRAWL_API_KEY")
+firecrawl_auth_config_id = os.getenv("FIRECRAWL_AUTH_CONFIG_ID") or ""
+user_id = os.getenv("FIRECRAWL_USER_ID") or ""
+fire_crawl_api_key = os.getenv("FIRECRAWL_API_KEY") or ""
 composio = Composio()
 
 def authenticate_toolkit(user_id: str, auth_config_id: str, user_api_key: str):
@@ -27,5 +27,8 @@ def authenticate_toolkit(user_id: str, auth_config_id: str, user_api_key: str):
     return connection_request.id
 
 if __name__ == "__main__":
-    connection_id = authenticate_toolkit(user_id, firecrawl_auth_config_id, fire_crawl_api_key)
-    print(f"Connection ID: {connection_id}")
+    if all([user_id, firecrawl_auth_config_id, fire_crawl_api_key]):
+        connection_id = authenticate_toolkit(user_id, firecrawl_auth_config_id, fire_crawl_api_key)
+        print(f"Connection ID: {connection_id}")
+    else:
+        print("Missing required environment variables")

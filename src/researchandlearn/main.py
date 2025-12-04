@@ -1,12 +1,13 @@
 #!/usr/bin/env python
-import sys
 import warnings
-
-from datetime import datetime
-
-from researchandlearn.crew import Researchandlearn
-
+# Filter warnings before any other imports
 warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
+warnings.filterwarnings("ignore", category=UserWarning, message=".*shadows an attribute in parent.*")
+warnings.filterwarnings("ignore", category=UserWarning, module="pydantic.*")
+
+import sys
+from datetime import datetime
+from researchandlearn.crew import Researchandlearn
 
 # This main file is intended to be a way for you to run your
 # crew locally, so refrain from adding unnecessary logic into this file.
@@ -29,7 +30,7 @@ def run():
     # print(f"\n🚀 Starting Roadmap Factory for topic: '{topic}'")
     # print(f"📝 This will generate: {topic.replace(' ', '-')}-Learning-Roadmap.md")
     # print(f"⏱️  Estimated time: 5-10 minutes\n")
-    topic = "Composio"
+    topic = "Backend"
     
     inputs = {
         'topic': topic

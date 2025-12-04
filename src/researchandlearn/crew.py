@@ -26,7 +26,7 @@ if not google_search_key:
 # if not notion_api_key:
 #     raise ValueError("Missing NOTION_API_KEY environment variable")
 
-user_id = os.getenv("FIRECRAWL_USER_ID")
+user_id = os.getenv("FIRECRAWL_USER_ID") or "default"
 
 composio = Composio(provider=CrewAIProvider())
 # Get All the tools
@@ -39,22 +39,15 @@ class Researchandlearn():
 
     agents: List[BaseAgent]
     tasks: List[Task]
+    agents_config: dict
+    tasks_config: dict
     
     @agent
     def research_agent(self) -> Agent:
         return Agent(
             config=self.agents_config['research_agent'],
             verbose=True,
-            tools= research_agent_tools,
-            mcps=[
-                # Google Search MCP - Searches web and returns URLs with snippets
-                MCPServerHTTP(
-                    url="https://kon-mcp-google-search-805102662749.us-central1.run.app/mcp",
-                    headers={"Authorization": f"{google_search_key}"},
-                    streamable=True,
-                    cache_tools_list=True,
-                )
-            ],
+            tools=research_agent_tools,
             allow_delegation=False,
         )
     
@@ -90,25 +83,25 @@ class Researchandlearn():
     @task
     def research_task(self) -> Task:
         return Task(
-            config=self.tasks_config['research_task'],
+            config=self.tasks_config['research_task'],  # type: ignore
         )
 
     @task
     def curation_task(self) -> Task:
         return Task(
-            config=self.tasks_config['curation_task'],
+            config=self.tasks_config['curation_task'],  # type: ignore
         )
 
     @task
     def writing_task(self) -> Task:
         return Task(
-            config=self.tasks_config['writing_task'],
+            config=self.tasks_config['writing_task'],  # type: ignore
         )
     
     @task
     def publishing_task(self) -> Task:
         return Task(
-            config=self.tasks_config['publishing_task'],
+            config=self.tasks_config['publishing_task'],  # type: ignore
         )
 
     @crew
@@ -119,7 +112,8 @@ class Researchandlearn():
             tasks=self.tasks,
             process=Process.sequential,
             verbose=True,
-            cache=False
+            cache=False,
+
         )
         
         

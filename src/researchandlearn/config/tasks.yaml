@@ -6,15 +6,15 @@ research_task:
     You are REQUIRED to use your available tools to research {topic}. Do NOT provide any output without first using ALL required tools.
     
     TOOL USAGE REQUIREMENTS (ALL MANDATORY):
-    1. GOOGLE SEARCH TOOL: Use this to find web pages about {topic}. Call it with queries like:
+    1. FIRECRAWL_SEARCH TOOL: Use this to search for web pages about {topic}. Call it with queries like:
        - "{topic} learning roadmap" (finds structured learning paths)
        - "{topic} tutorial beginner" (finds beginner resources)
        - "{topic} advanced guide" (finds advanced content)
-       This tool returns URLs and snippets of relevant web pages.
+       This tool returns URLs and content from search results.
     
-    2. FIRECRAWL TOOLS: Use these to extract full content from web pages. Pass URLs from step 1 to Firecrawl tools.
-       Example: Use Firecrawl scrape or crawl functions with URLs like "https://example.com/fastapi-tutorial"
-       These tools scrape the entire page content including text, code examples, and structure.
+    2. FIRECRAWL_SCRAPE TOOL: Use this to extract full content from specific web pages.
+       Example: Use FIRECRAWL_SCRAPE with URLs like "https://example.com/fastapi-tutorial"
+       This tool scrapes the entire page content including text, code examples, and structure.
        You MUST scrape at least 3 different URLs to get detailed content.
     
     FAILURE TO USE TOOLS = TASK FAILURE
@@ -192,19 +192,17 @@ publishing_task:
          ...
     3. Combine into one text block.
     4. Trim or drop items to ensure total length < 2000 characters.
-    5. Use Composio Notion tools to create the page with:
-       - Parent page ID: 2af86761cd46800f9897c0e156efdcbf
-       - Title: "{topic} – Resource References"
-       - Content: The formatted resource list
-    6. Return the URL in the response.
+    5. Use NOTION_CREATE_NOTION_PAGE with these EXACT parameters:
+       - parent_id: "2af86761cd46800f9897c0e156efdcbf" (STRING, not dict)
+       - title: "{topic} – Resource References"
+    6. Use NOTION_ADD_MULTIPLE_PAGE_CONTENT to add the resource list.
+    7. Return the URL in the response.
 
-    RULES:
-    - Parent is a PAGE → use "page_id", not "database_id"
-    - Use "properties.title", not "Name"
-    - Do NOT send the entire Markdown
+    CRITICAL RULES:
+    - parent_id MUST be a plain string "2af86761cd46800f9897c0e156efdcbf"
+    - DO NOT use dict format like {{"page_id": "..."}} - this causes validation errors
     - Content must be text-only
     - If length > 2000 chars, reduce the list until safe
-    - Use your Composio Notion tools to create and publish the page
   
   expected_output: |
     Either:
