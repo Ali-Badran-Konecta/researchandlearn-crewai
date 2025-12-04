@@ -29,7 +29,7 @@ def run():
     # print(f"\n🚀 Starting Roadmap Factory for topic: '{topic}'")
     # print(f"📝 This will generate: {topic.replace(' ', '-')}-Learning-Roadmap.md")
     # print(f"⏱️  Estimated time: 5-10 minutes\n")
-    topic = "AI LLMs"
+    topic = "Composio"
     
     inputs = {
         'topic': topic

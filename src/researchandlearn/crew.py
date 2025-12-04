@@ -4,6 +4,9 @@ from crewai.agents.agent_builder.base_agent import BaseAgent
 from crewai.mcp import MCPServerStdio, MCPServerHTTP
 from crewai.mcp.filters import create_static_tool_filter
 from typing import List
+from composio import Composio
+from composio_crewai import CrewAIProvider
+
 
 # import agentops
 import os
@@ -19,9 +22,16 @@ if not google_search_key:
 # if os.getenv("AGENTOPS_API_KEY"):
 #     agentops.init(os.getenv("AGENTOPS_API_KEY"))
 
-notion_api_key = os.getenv("NOTION_API_KEY")
-if not notion_api_key:
-    raise ValueError("Missing NOTION_API_KEY environment variable")
+# notion_api_key = os.getenv("NOTION_API_KEY")
+# if not notion_api_key:
+#     raise ValueError("Missing NOTION_API_KEY environment variable")
+
+user_id = os.getenv("FIRECRAWL_USER_ID")
+
+composio = Composio(provider=CrewAIProvider())
+# Get All the tools
+research_agent_tools = composio.tools.get(user_id=user_id, toolkits=["FIRECRAWL"])
+notion_publisher_agent_tools = composio.tools.get(user_id=user_id, toolkits=["NOTION"])
 
 @CrewBase
 class Researchandlearn():
@@ -35,38 +45,13 @@ class Researchandlearn():
         return Agent(
             config=self.agents_config['research_agent'],
             verbose=True,
+            tools= research_agent_tools,
             mcps=[
-                # YouTube MCP - Analyzes YouTube videos and extracts transcripts
-                MCPServerStdio(
-                    command="docker",
-                    args=[
-                        "run",
-                        "-i",
-                        "--rm",
-                        "mcp/youtube-transcript"
-                    ],
-                    tool_filter=create_static_tool_filter(
-                        allowed_tool_names=[
-                            "get_transcript",      # Gets full video transcript text
-                            "get_timed_transcript", # Gets transcript with timestamps
-                            "get_video_info"        # Gets video metadata (title, duration, description)
-                        ]
-                    ),
-                    cache_tools_list=True,
-                ),
                 # Google Search MCP - Searches web and returns URLs with snippets
                 MCPServerHTTP(
                     url="https://kon-mcp-google-search-805102662749.us-central1.run.app/mcp",
                     headers={"Authorization": f"{google_search_key}"},
                     streamable=True,
-                    cache_tools_list=True,
-                ),
-                # Crawl4AI MCP - Extracts full content from web pages (text, code, structure)
-                MCPServerHTTP(
-                    url="http://0.0.0.0:8080/mcp",
-                    tool_filter=create_static_tool_filter(
-                        allowed_tool_names=["crawl_url"]  # Takes URL, returns full page content
-                    ),
                     cache_tools_list=True,
                 )
             ],
@@ -97,45 +82,8 @@ class Researchandlearn():
         return Agent(
             config=self.agents_config["notion_publisher_agent"],
             verbose=True,
+            tools=notion_publisher_agent_tools,
             allow_delegation=False,
-            mcps=[
-                MCPServerStdio(
-                    command="docker",
-                    args=[
-                        "run",
-                        "--rm",
-                        "-i",
-                        "-e",
-                        f"NOTION_TOKEN={notion_api_key}",
-                        "mcp/notion"
-                    ],
-                    tool_filter=create_static_tool_filter(
-                        allowed_tool_names=[
-                            "API-create-a-comment",      # Notion | Create comment
-                            "API-delete-a-block",        # Notion | Delete a block
-                            "API-get-block-children",    # Notion | Retrieve block children
-                            "API-get-self",              # Notion | Retrieve your token's bot user
-                            "API-get-user",              # Notion | Retrieve a user
-                            "API-get-users",             # Notion | List all users
-                            "API-patch-block-children",  # Notion | Append block children
-                            "API-patch-page",            # Notion | Update page properties
-                            "API-post-page",             # Notion | Create a page
-                            "API-post-search",           # Notion | Search by title
-                            "API-retrieve-a-block",      # Notion | Retrieve a block
-                            "API-retrieve-a-page",       # Notion | Retrieve a page
-                            "API-retrieve-a-page-property",  # Notion | Retrieve a page property items
-                        ]
-                    ),
-                    cache_tools_list=True,
-                ),
-                # HTTP/Streamable HTTP transport for remote servers
-                MCPServerHTTP(
-                    url="https://kon-mcp-google-search-805102662749.us-central1.run.app/mcp",
-                    headers={"Authorization": f"{google_search_key}"},
-                    streamable=True,
-                    cache_tools_list=True,
-                ),
-            ],
         )
     
 

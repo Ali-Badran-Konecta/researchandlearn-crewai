@@ -517,6 +517,52 @@ wheels = [
 ]
 
 [[package]]
+name = "composio"
+version = "0.9.4"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "composio-client" },
+    { name = "openai" },
+    { name = "pydantic" },
+    { name = "pysher" },
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/92/b3/26d2c6a467a615f5edc71d8370e9ed3f0184caad21f87b270eb7e6a43c50/composio-0.9.4.tar.gz", hash = "sha256:6c43a9aef83e198c47899acde131ab0c837e8f5db259334c78589bd53e3235cf", size = 82069, upload-time = "2025-11-26T09:47:21.521Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/5d/8a/bc6486a2291ce0ceb2b8108509cce1e43b09ddd96bf0dd336c4b247e759c/composio-0.9.4-py3-none-any.whl", hash = "sha256:0f3ee6329654de647eb3eafddef6e67183b09f070f95bc77a58cb799fa8faa64", size = 73657, upload-time = "2025-11-26T09:47:09.61Z" },
+]
+
+[[package]]
+name = "composio-client"
+version = "1.17.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "anyio" },
+    { name = "distro" },
+    { name = "httpx" },
+    { name = "pydantic" },
+    { name = "sniffio" },
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/8a/ac/2194260234ef364f7bd4b3dc7a4ae08b6e819ab22935218207795bf77c27/composio_client-1.17.1.tar.gz", hash = "sha256:c5e9d593bc2497f3c57614f544a7c5cf3601f310b2f1e65ccfa9a69dcb496733", size = 182234, upload-time = "2025-12-02T07:53:02.503Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/30/4c/7dc1647fba7cdeeb3a62f1ddb03c57d556a81de731ac58b58ae43f2d0ff9/composio_client-1.17.1-py3-none-any.whl", hash = "sha256:ccf7f07e34e67d90eae33034eeccf76ecc98cbf36ebc167f8f4327f3180050c7", size = 198420, upload-time = "2025-12-02T07:53:01.035Z" },
+]
+
+[[package]]
+name = "composio-crewai"
+version = "0.9.4"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "composio" },
+    { name = "crewai" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/2c/46/3160f50b6a0a5f173ce40438ce8c191fd675817dcbedfd33526646753555/composio_crewai-0.9.4.tar.gz", hash = "sha256:e3dc31ec3fb20717fec69b730848e07b9dcd4ba559a330571e83d53a4fea46dc", size = 2208, upload-time = "2025-11-26T09:47:23.94Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/21/a9/00f6e55f05a3d7df604a9ea0e2f9c109b412c36eb7f3a8551406199cff44/composio_crewai-0.9.4-py3-none-any.whl", hash = "sha256:8e1f49068b7e60746b0caa8abe3648fd495a01c56c1f7447a1102354302017bc", size = 2481, upload-time = "2025-11-26T09:47:12.693Z" },
+]
+
+[[package]]
 name = "crewai"
 version = "1.5.0"
 source = { registry = "https://pypi.org/simple" }
@@ -2892,6 +2938,16 @@ wheels = [
 ]
 
 [[package]]
+name = "pysher"
+version = "1.0.8"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "requests" },
+    { name = "websocket-client" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/12/a0/d0638470df605ce266991fb04f74c69ab1bed3b90ac3838e9c3c8b69b66a/Pysher-1.0.8.tar.gz", hash = "sha256:7849c56032b208e49df67d7bd8d49029a69042ab0bb45b2ed59fa08f11ac5988", size = 9071, upload-time = "2022-10-10T13:41:09.936Z" }
+
+[[package]]
 name = "python-dateutil"
 version = "2.9.0.post0"
 source = { registry = "https://pypi.org/simple" }
@@ -3135,6 +3191,8 @@ version = "0.1.0"
 source = { editable = "." }
 dependencies = [
     { name = "anthropic" },
+    { name = "composio" },
+    { name = "composio-crewai" },
     { name = "crewai", extra = ["google-genai", "tools"] },
     { name = "litellm" },
     { name = "markdown-it-py" },
@@ -3144,6 +3202,8 @@ dependencies = [
 [package.metadata]
 requires-dist = [
     { name = "anthropic", specifier = ">=0.73.0" },
+    { name = "composio", specifier = ">=0.9.4" },
+    { name = "composio-crewai", specifier = ">=0.9.4" },
     { name = "crewai", extras = ["google-genai", "tools"], specifier = "==1.5.0" },
     { name = "litellm", specifier = ">=1.80.0" },
     { name = "markdown-it-py", specifier = ">=4.0.0" },

@@ -6,6 +6,8 @@ authors = [{ name = "Ali Badran", email = "ali.badran@konecta.com" }]
 requires-python = ">=3.10,<3.14"
 dependencies = [
     "anthropic>=0.73.0",
+    "composio>=0.9.4",
+    "composio-crewai>=0.9.4",
     "crewai[google-genai,tools]==1.5.0",
     "litellm>=1.80.0",
     "markdown-it-py>=4.0.0",
