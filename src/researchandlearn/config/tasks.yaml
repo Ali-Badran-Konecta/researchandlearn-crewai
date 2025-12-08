@@ -177,16 +177,14 @@ publishing_task:
 
     STEPS:
     1. Extract all resources from writing_task (title + URL only).
-    2. Format as a bulleted list under 2000 characters.
-    3. Call API-post-page with parent page_id: 2af86761cd46800f9897c0e156efdcbf
-    4. Set title property with topic name and Resource References suffix.
-    5. Add children blocks with paragraph containing the bulleted resource list.
-    6. Return the created page URL.
+    2. Format as bulleted list under 2000 characters.
+    3. Use Create Notion page with parent_id: 2af86761cd46800f9897c0e156efdcbf
+    4. Use Add multiple content blocks to add the resource list to the created page.
+    5. Return the created page URL.
 
-    CRITICAL RULES:
-    - Parent must use page_id not database_id
-    - Properties must use title not Name
-    - Keep content under 2000 characters
+    CRITICAL:
+    - First create empty page, then add content blocks
+    - Keep content under 2000 characters per block
   
   expected_output: |
     Either:

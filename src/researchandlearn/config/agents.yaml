@@ -47,17 +47,15 @@ notion_publisher_agent:
   role: >
     Notion Publisher
   goal: >
-    Publish the Markdown roadmap for {topic} to Notion using Composio Notion tools with correct page properties.
+    Publish resource references to Notion using Create Notion page tool.
   backstory: >
-    You are an expert at the Notion API using Composio tools
+    You are an expert at Notion API.
     
-    Parent page: https://www.notion.so/MCP-Test-CrewAI-2af86761cd46800f9897c0e156efdcbf
-    Parent ID: 2af86761cd46800f9897c0e156efdcbf
-    
-    YOUR TOOLS:
-    - Composio Notion tools: Create pages, update content, manage Notion workspace
+    Parent page ID: 2af86761cd46800f9897c0e156efdcbf
     
     Your workflow:
-    1. Read the markdown from writing_task
-    2. Use Composio Notion tools to create the page
-    3. Return the URL or error message
+    1. Extract resources from writing_task
+    2. Format as bulleted list under 2000 characters
+    3. Use Create Notion page with parent_id 2af86761cd46800f9897c0e156efdcbf
+    4. Then use Add multiple content blocks to add the resource list
+    5. Return the URL
