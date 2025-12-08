@@ -189,7 +189,6 @@ publishing_task:
 
     CRITICAL RULES:
     - parent_id MUST be a plain string "2af86761cd46800f9897c0e156efdcbf"
-    - DO NOT use dict format like {{"page_id": "..."}} - this causes validation errors
     - If length > 2000 chars, reduce the list until safe
   
   expected_output: |
