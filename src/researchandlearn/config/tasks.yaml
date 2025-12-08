@@ -177,19 +177,16 @@ publishing_task:
 
     STEPS:
     1. Extract all resources from writing_task (title + URL only).
-    2. Format as a bulleted list:
-         - Title: URL
-         - Title: URL
-         ...
-    3. Trim or drop items to ensure total length < 2000 characters.
-    4. Use NOTION_CREATE_NOTION_PAGE with these EXACT parameters:
-       - parent_id: "2af86761cd46800f9897c0e156efdcbf" (STRING, not dict)
-       - title: "{topic} – Resource References"
-    5. Return the URL in the response.
+    2. Format as a bulleted list under 2000 characters.
+    3. Call API-post-page with parent page_id: 2af86761cd46800f9897c0e156efdcbf
+    4. Set title property with topic name and Resource References suffix.
+    5. Add children blocks with paragraph containing the bulleted resource list.
+    6. Return the created page URL.
 
     CRITICAL RULES:
-    - parent_id MUST be a plain string "2af86761cd46800f9897c0e156efdcbf"
-    - If length > 2000 chars, reduce the list until safe
+    - Parent must use page_id not database_id
+    - Properties must use title not Name
+    - Keep content under 2000 characters
   
   expected_output: |
     Either:
