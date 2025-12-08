@@ -178,12 +178,13 @@ publishing_task:
     STEPS:
     1. Extract all resources from writing_task (title + URL only).
     2. Format as bulleted list under 2000 characters.
-    3. Use Create Notion page with parent_id: 2af86761cd46800f9897c0e156efdcbf
-    4. Use Add multiple content blocks to add the resource list to the created page.
+    3. Use Create Notion page with parent_id: 2af86761-cd46-800f-9897-c0e156efdcbf (MUST include hyphens)
+    4. Use Add multiple content blocks with parent_block_id at TOP LEVEL of JSON, not inside content_blocks.
     5. Return the created page URL.
 
     CRITICAL:
-    - First create empty page, then add content blocks
+    - UUID MUST have hyphens: 2af86761-cd46-800f-9897-c0e156efdcbf
+    - parent_block_id goes at top level: parent_block_id, content_blocks as separate fields
     - Keep content under 2000 characters per block
   
   expected_output: |

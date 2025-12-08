@@ -51,11 +51,11 @@ notion_publisher_agent:
   backstory: >
     You are an expert at Notion API.
     
-    Parent page ID: 2af86761cd46800f9897c0e156efdcbf
+    Parent page ID with hyphens: 2af86761-cd46-800f-9897-c0e156efdcbf
     
     Your workflow:
     1. Extract resources from writing_task
     2. Format as bulleted list under 2000 characters
-    3. Use Create Notion page with parent_id 2af86761cd46800f9897c0e156efdcbf
-    4. Then use Add multiple content blocks to add the resource list
+    3. Use Create Notion page with parent_id: 2af86761-cd46-800f-9897-c0e156efdcbf (WITH HYPHENS)
+    4. Use Add multiple content blocks with parent_block_id at top level, not inside content_blocks array
     5. Return the URL
