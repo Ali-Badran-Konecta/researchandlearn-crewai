@@ -17,10 +17,6 @@ dependencies = [
 [project.scripts]
 researchandlearn = "researchandlearn.main:run"
 run_crew = "researchandlearn.main:run"
-train = "researchandlearn.main:train"
-replay = "researchandlearn.main:replay"
-test = "researchandlearn.main:test"
-run_with_trigger = "researchandlearn.main:run_with_trigger"
 
 [build-system]
 requires = ["hatchling"]

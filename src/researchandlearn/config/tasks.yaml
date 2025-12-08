@@ -3,7 +3,7 @@
 # ===================================
 research_task:
   description: >
-    You are REQUIRED to use your available tools to research {topic}. Do NOT provide any output without first using ALL required tools.
+    You are REQUIRED to use your available tools to research {topic}.
     
     TOOL USAGE REQUIREMENTS (ALL MANDATORY):
     1. FIRECRAWL_SEARCH TOOL: Use this to search for web pages about {topic}. Call it with queries like:
@@ -175,33 +175,21 @@ publishing_task:
     The goal is to publish a short, compact “Resources Used” summary
     under 2000 characters, making it Notion-safe.
 
-    The page must contain:
-    - Title: "{topic} – Resource References"
-    - One paragraph block containing:
-      * A bulleted list
-      * Each bullet includes: resource title + URL
-      * Total text length under 2000 characters
-        If over 2000 chars, truncate the list or condense items.
-
-
     STEPS:
     1. Extract all resources from writing_task (title + URL only).
     2. Format as a bulleted list:
          - Title: URL
          - Title: URL
          ...
-    3. Combine into one text block.
-    4. Trim or drop items to ensure total length < 2000 characters.
-    5. Use NOTION_CREATE_NOTION_PAGE with these EXACT parameters:
+    3. Trim or drop items to ensure total length < 2000 characters.
+    4. Use NOTION_CREATE_NOTION_PAGE with these EXACT parameters:
        - parent_id: "2af86761cd46800f9897c0e156efdcbf" (STRING, not dict)
        - title: "{topic} – Resource References"
-    6. Use NOTION_ADD_MULTIPLE_PAGE_CONTENT to add the resource list.
-    7. Return the URL in the response.
+    5. Return the URL in the response.
 
     CRITICAL RULES:
     - parent_id MUST be a plain string "2af86761cd46800f9897c0e156efdcbf"
     - DO NOT use dict format like {{"page_id": "..."}} - this causes validation errors
-    - Content must be text-only
     - If length > 2000 chars, reduce the list until safe
   
   expected_output: |

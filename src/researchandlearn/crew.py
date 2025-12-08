@@ -8,7 +8,6 @@ from composio import Composio
 from composio_crewai import CrewAIProvider
 
 
-# import agentops
 import os
 from dotenv import load_dotenv
 load_dotenv()
@@ -18,17 +17,11 @@ google_search_key = os.getenv("GOOGLE_SEARCH_KEY")
 if not google_search_key:
     raise ValueError("Missing GOOGLE_SEARCH_KEY environment variable")
 
-# # Initialize AgentOps if API key is available
-# if os.getenv("AGENTOPS_API_KEY"):
-#     agentops.init(os.getenv("AGENTOPS_API_KEY"))
-
-# notion_api_key = os.getenv("NOTION_API_KEY")
-# if not notion_api_key:
-#     raise ValueError("Missing NOTION_API_KEY environment variable")
 
 user_id = os.getenv("FIRECRAWL_USER_ID") or "default"
 
 composio = Composio(provider=CrewAIProvider())
+
 # Get All the tools
 research_agent_tools = composio.tools.get(user_id=user_id, toolkits=["FIRECRAWL"])
 notion_publisher_agent_tools = composio.tools.get(user_id=user_id, toolkits=["NOTION"])

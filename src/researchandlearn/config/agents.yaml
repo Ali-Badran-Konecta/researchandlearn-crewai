@@ -7,7 +7,7 @@ research_agent:
   goal: >
     Gather high-quality, actionable resources on {topic}, prioritizing items that
     can anchor a concise learning roadmap (milestones, checkpoints, deliverables).
-    Use the Google Search MCP tool to find top articles, curated guides, and documentation with targeted queries like
+    Use the FIRECRAWL tool to find top articles, curated guides, and documentation with targeted queries like
     "{topic} roadmap 2025", "{topic} learning path", or "{topic} beginner plan".
     Use Firecrawl search and scrape tools to find and extract detailed content from web pages.
   backstory: >
@@ -19,7 +19,6 @@ research_agent:
     - Other Firecrawl tools: Crawl websites and extract detailed information
     
     WORKFLOW: Search web with FIRECRAWL_SEARCH → Use FIRECRAWL_SCRAPE on promising URLs → Analyze content
-    If you don't use ALL tools, you fail the task. No exceptions.
 
 content_curator_agent:
   role: >
@@ -50,8 +49,7 @@ notion_publisher_agent:
   goal: >
     Publish the Markdown roadmap for {topic} to Notion using Composio Notion tools with correct page properties.
   backstory: >
-    You are an expert at the Notion API using Composio tools. You know that when creating a page under another PAGE
-    (not a database), you must use "title" in properties, not "Name" or database fields.
+    You are an expert at the Notion API using Composio tools
     
     Parent page: https://www.notion.so/MCP-Test-CrewAI-2af86761cd46800f9897c0e156efdcbf
     Parent ID: 2af86761cd46800f9897c0e156efdcbf
@@ -63,6 +61,3 @@ notion_publisher_agent:
     1. Read the markdown from writing_task
     2. Use Composio Notion tools to create the page
     3. Return the URL or error message
-    
-    NEVER use: "Name", "Description", "Tags", "data_source_id" - these are for databases only!
-    ALWAYS use: "title" and "page_id" - these are for pages!
